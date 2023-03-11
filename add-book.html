@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Poch'Lib</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/style.css">
+        <script src="js/script.js"></script>
+
+        
+  	</head>
+  	<body>
+		<div class="logo">
+                <img  src="img/logo.png" height="100px" />
+        </div>
+        <div id="new-book">
+            <div class="titre">
+                <h1 class="title">Poch'Lib</h1>
+            </div>
+			<p>Nouveau Livre</p>
+			<hr>
+            <form action="/action_page.php">
+              <label for="title-book">Titre du livre</label><br>
+              <input type="text" id="title-book" name="title-book" value=""><br><br>
+              <label for="author">Auteur</label><br>
+              <input type="text" id="author" name="author" value=""><br><br>
+              <input type="submit" class="button-green-search" value="Rechercher"><br><br>
+
+            </form>
+			<div id="content">
+                <button class="button-red" ><a href="add-book.html">Annuler</button></a>
+			</div>
+            <hr>
+			<p>Ma poch'liste</p>
+		</div>
+  	</body>
+</html>
