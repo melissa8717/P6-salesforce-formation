@@ -5,7 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles/style.css">
-        <script src="js/script.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
 
         
   	</head>
@@ -21,12 +21,12 @@
 			<hr>
             <form action="/action_page.php">
               <label for="title-book">Titre du livre</label><br>
-              <input type="text" id="title-book" name="title-book" value=""><br><br>
+              <input type="text" id="title-book" name="title-book" value="" required="required"><br><br>
               <label for="author">Auteur</label><br>
-              <input type="text" id="author" name="author" value=""><br><br>
-              <input type="submit" class="button-green-search" value="Rechercher"><br><br>
-
+              <input type="text" id="author" name="author" value="" required="required"><br><br>
             </form>
+           <input type="button" class="button-green-search" value="Rechercher" onClick="API()" /><br><br>
+
 			<div id="content">
                 <button class="button-red" ><a href="add-book.html">Annuler</button></a>
 			</div>
