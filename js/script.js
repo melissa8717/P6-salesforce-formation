@@ -8,38 +8,45 @@ async function API(){
     const books = await response.json();
     var bookList = [];
     bookList=books.items;
-   console.log(bookList);
+    const bookTotal = books.totalItems;
+    console.log(books);
     
-    let  i = 0;
-    while(i<bookList.length){
-        
-        var bookDiv = document.getElementById("book")
-        var div = document.createElement("div");
-        var h3Author = document.createElement("h4");
-        var h3Title = document.createElement("h4");
-        var h3ID= document.createElement("h4");
-        var h3Text = document.createElement("h4");
-        var img = document.createElement("img");
-        img.src = bookList[i].volumeInfo.imageLinks.thumbnail;                               
+     var bookDiv = document.getElementById("book")
 
-        div.id = "element";
-       
-        h3Author.innerHTML ="Auteur : " + bookList[i].volumeInfo.authors;
-        h3Title.innerHTML = "Titre : " +bookList[i].volumeInfo.title;
-        h3ID.innerHTML = "Identifiant : " + bookList[i].id;
-        h3Text.innerHTML = "Description : " + bookList[i].volumeInfo.description;
-        
-        bookDiv.append(div);
-        div.append(h3Title);
-        div.append(h3ID);
-        div.append(h3Author);
-        div.append(h3Text);
-        div.append(img);
+     if(bookTotal == 0){
+        var p = document.createElement("p");
+        p.innerHTML = "Aucun livre n’a été trouvé";
+        bookDiv.append(p);
 
-       // console.log(bookList[i].volumeInfo.authors);
-        i++;
-    }
-  
-    
+        }
+     else{
+     let  i = 0;
+        while(i<bookList.length){
+
+                var div = document.createElement("div");
+                var h3Author = document.createElement("h4");
+                var h3Title = document.createElement("h4");
+                var h3ID= document.createElement("h4");
+                var h3Text = document.createElement("h4");
+                var img = document.createElement("img");
+                img.src = bookList[i].volumeInfo.imageLinks.thumbnail;                               
+
+                div.id = "element";
+
+                h3Author.innerHTML ="Auteur : " + bookList[i].volumeInfo.authors;
+                h3Title.innerHTML = "Titre : " +bookList[i].volumeInfo.title;
+                h3ID.innerHTML = "Identifiant : " + bookList[i].id;
+                h3Text.innerHTML = "Description : " + bookList[i].volumeInfo.description;
+
+                bookDiv.append(div);
+                div.append(h3Title);
+                div.append(h3ID);
+                div.append(h3Author);
+                div.append(h3Text);
+                div.append(img);
+            }
+           // console.log(bookList[i].volumeInfo.authors);
+            i++;
+      }
 
 }
