@@ -19,6 +19,8 @@ async function API(){
         var h3Title = document.createElement("h4");
         var h3ID= document.createElement("h4");
         var h3Text = document.createElement("h4");
+        var img = document.createElement("img");
+        img.src = bookList[i].volumeInfo.imageLinks.thumbnail;                               
 
         div.id = "element";
        
@@ -26,11 +28,13 @@ async function API(){
         h3Title.innerHTML = "Titre : " +bookList[i].volumeInfo.title;
         h3ID.innerHTML = "Identifiant : " + bookList[i].id;
         h3Text.innerHTML = "Description : " + bookList[i].volumeInfo.description;
+        
         bookDiv.append(div);
         div.append(h3Title);
         div.append(h3ID);
         div.append(h3Author);
         div.append(h3Text);
+        div.append(img);
 
        // console.log(bookList[i].volumeInfo.authors);
         i++;
