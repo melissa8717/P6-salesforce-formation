@@ -32,8 +32,8 @@ h1,h2{visibility:hidden;}
 .button-green{visibility:visibile !important;}
 
 a{
-text-decoration:none; 
-color:white
+    text-decoration:none; 
+    color:white;
 }
 
 .button-green-search {
@@ -51,6 +51,7 @@ color:white
 .button-red {
   background-color: $red;
 }
+
 p{
     margin-left:45%;
     font-size:30px;
@@ -63,6 +64,10 @@ p{
     margin-top: 10px;
 }
 
-
+#bookmark{
+   height : 50px;
+   margin-left: 96%;
+  
+}
 
 
