@@ -35,44 +35,55 @@ async function API(){
          let textSearch = document.createElement("h3");
          divSearch.append(textSearch);
      let  i = 0;
+     
         while(i<bookList.length){
                 //console.log("else");
-                var div = document.createElement("div");
+                let div = document.createElement("div");
                 var author = document.createElement("h4");
                 var title = document.createElement("h4");
                 var ID= document.createElement("h4");
                 var text = document.createElement("h4");
                 var imgage = document.createElement("img");
-                var bookmarks = document.createElement("img");
+                let bookmarks = document.createElement("i");
+                bookmarks.classList.add("fa-regular", "fa-bookmark");
                // console.log(bookList[i].volumeInfo.imageLinks.thumbnail);
                 
-                /*if(bookList[i].volumeInfo.imageLinks.thumbnail == null){
+                if(bookList[i].volumeInfo.imageLinks.thumbnail == null){
                     imgage.src = img/unvalaible.png;
                 }
                 else{
                     imgage.src = bookList[i].volumeInfo.imageLinks.thumbnail;   
-                }*/
+                }
+               
                 let txt = bookList[i].volumeInfo.description;
 
                 div.id = "element";
-                bookmarks.id = "bookmark";
-                bookmarks.src = "img/add-bookmark-icon.png";
-            
+                bookmarks.id = "bookmark"+i;
+                
+                //if more than one author
+                for (let j = 0; j < bookList[i].volumeInfo.authors.length; j++) {
+                    console.log(bookList[i].volumeInfo.authors[j]);
+                    if(bookList[i].volumeInfo.authors.length > 1){
+                        author.innerHTML ="Auteur : " + bookList[i].volumeInfo.authors[0]  ;
+                    }
+                    else{
+                      author.innerHTML ="Auteur : " + bookList[i].volumeInfo.authors;
+
+                    }
+                }
                  //console.log(bookList[i].volumeInfo);
                 textSearch.innerHTML = "Résultat de la recherche :";
-                author.innerHTML ="Auteur : " + bookList[i].volumeInfo.authors;
                 title.innerHTML = "Titre : " +bookList[i].volumeInfo.title;
-                ID.innerHTML = "Identifiant : " + bookList[i].id;
+                ID.innerHTML = "<br /> Identifiant : " + bookList[i].id;
                 
                 if(bookList[i].volumeInfo.description ==  null){
                     text.innerHTML = "Description : Information manquante";
                 }
                 else{
-                    text.innerHTML = "Description : " + txt.slice(0, 200);
+                    text.innerHTML = "Description : " + txt.slice(0, 200)+"...";
                 }
 
                 bookDiv.append(div);
-                
                 div.append(bookmarks);
                 div.append(title);
                 div.append(ID);
@@ -80,58 +91,17 @@ async function API(){
                 div.append(text);
                 div.append(imgage);
                 
-                
-                
                 //bookmark
-                document.getElementById("bookmark").onclick = function() {
-                    authorBookmark = author;
-                sessionStorage.setItem("title", title.textContent);    
-                let titleMarkSession = sessionStorage.getItem("title");
-                    
-                let pochListDiv = document.getElementById("pochList");
-                let titleMark = document.createElement("h4");
-                titleMark.innerHTML =  titleMarkSession;
-                titleMark.id = "titleMarked";
-                pochListDiv.append(titleMark);  
-                //auto save in refresh                   
-                let field = document.getElementById("titleMarked");
-
-                // See if we have an autosave value
-                // (this will only happen if the page is accidentally refreshed)
-                if (sessionStorage.getItem("title")) {
-                  // Restore the contents of the text field
-                    console.log("hello");
-                  titleMark.textContent = sessionStorage.getItem("title");
-                }
-                
-                    
-                // Listen for changes in the text field
-               field.addEventListener("change", () => {
-                  // And save the results into the session storage object
-                  sessionStorage.setItem("title", titleMark.textContent);
-                });
-                
-                
-                 console.log(titleMark.textContent);
-                    
-                  
-                }
-                
-
+                console.log(document.getElementById("element"));
+                document.getElementById("bookmark"+i).addEventListener('click',function(event){
+                event.preventDefault()
+                    AjoutPochlist(div);}, false);
+            
         i++;    
       }
-         //empty field after search
-         //inputAuthor = document.getElementById("author").value = "";
-         //inputTitleBook = document.getElementById("title-book").value = "";
-          /*if (document.getElementById("element").innerHTMl != ""){
-                window.onload = function()
-                {
-                 document.write('');
-                }
-         }*/
          
-         //console.log(document.getElementById("book").innerHTML);
      }
+    
     count ++;
     console.log(count);
      if(count == 1){
@@ -141,7 +111,48 @@ async function API(){
     
         }
     if(count > 1){
-                document.getElementById("element").innerHTMl = "";
+                document.getElementById("element").innerHTML = "";
 
     }
+}
+
+
+function AjoutPochlist(div) {
+    console.log("hello"+div.innerHTML);
+    //authorBookmark = author;
+                sessionStorage.setItem("elementMarked", div.textContent);  
+                    
+                let markSession = sessionStorage.getItem("elementMarked");
+                let pochDiv = document.getElementById("poch");
+                let pochListDiv = document.createElement("div");
+                let bookMark = document.createElement("h4");
+                    
+                bookMark.innerHTML =  markSession;
+                bookMark.id = "bookMarked";
+                pochListDiv.id = "pochList";
+                pochDiv.append(pochListDiv);
+                pochListDiv.append(bookMark);  
+                    
+                //auto save in refresh                   
+                let field = document.getElementById("bookMarked");
+
+                // See if we have an autosave value
+                // (this will only happen if the page is accidentally refreshed)
+                for (let i=0; i < sessionStorage.length; i++) {
+                    let cle = sessionStorage.key(i);
+                    console.log(cle);
+                  // Restore the contents of the text field
+                  bookMark.textContent = sessionStorage.getItem("elementMarked");
+                    
+                }
+                
+                // Listen for changes in the text field
+               field.addEventListener("change", () => {
+                  // And save the results into the session storage object
+                  sessionStorage.setItem("elementMarked", bookMark.textContent);
+                });
+                
+                 console.log(bookMark.textContent); 
+                  
+             
 }
