@@ -51,7 +51,7 @@ p {
   font-size: 30px;
   font-weight: bold; }
 
-#element,#pochList{
+.element,.pochList{
   border: 5px solid #117A54;
   padding-bottom: 10px;
   margin-top: 10px; 
@@ -60,7 +60,7 @@ p {
   padding-left: 10px;
 }
 
-#book{
+#book, #poch{
     display: flex;
     flex-wrap: wrap;
 }
@@ -71,13 +71,19 @@ p {
    top: 5%;
 }
 
-#element img{
+.element img{
     position: relative;
     left: 30%;
 }
 
 .fa-bookmark{
     color: $green;
+    margin-left: 90%;
+}
+
+.fa-trash{
+    color:red;
+    margin-left: 90%;
 }
 
 
