@@ -44,6 +44,7 @@ async function API(){
                 var ID= document.createElement("h4");
                 var text = document.createElement("h4");
                 var imgage = document.createElement("img");
+                let para = document.createElement("p");
                 let bookmarks = document.createElement("i");
                 bookmarks.classList.add("fa-regular", "fa-bookmark");
                // console.log(bookList[i].volumeInfo.imageLinks.thumbnail);
@@ -57,7 +58,7 @@ async function API(){
                
                 let txt = bookList[i].volumeInfo.description;
 
-                div.id = "element";
+                div.className = "element";
                 bookmarks.id = "bookmark"+i;
                 
                 //if more than one author
@@ -86,16 +87,16 @@ async function API(){
                 bookDiv.append(div);
                 div.append(bookmarks);
                 div.append(title);
+                div.append(para);
                 div.append(ID);
                 div.append(author);
                 div.append(text);
                 div.append(imgage);
                 
                 //bookmark
-                console.log(document.getElementById("element"));
                 document.getElementById("bookmark"+i).addEventListener('click',function(event){
                 event.preventDefault()
-                    AjoutPochlist(div);}, false);
+                    addPochlist(div);}, false);
             
         i++;    
       }
@@ -103,56 +104,93 @@ async function API(){
      }
     
     count ++;
-    console.log(count);
-     if(count == 1){
+     if(count =>1){
         document.getElementById("author").value = "";
         document.getElementById("title-book").value = "";
        
     
         }
     if(count > 1){
-                document.getElementById("element").innerHTML = "";
+                document.getElementById("element").textContent = "";
 
     }
 }
 
 
-function AjoutPochlist(div) {
-    console.log("hello"+div.innerHTML);
+function addPochlist(div) {
     //authorBookmark = author;
-                sessionStorage.setItem("elementMarked", div.textContent);  
+                sessionStorage.setItem("elementMarked", div.innerHTML);  
                     
                 let markSession = sessionStorage.getItem("elementMarked");
                 let pochDiv = document.getElementById("poch");
                 let pochListDiv = document.createElement("div");
                 let bookMark = document.createElement("h4");
-                    
+                let trash = document.createElement("i");
+    
+               // trash.classList.add("fa-regular","fa-trash");
+                  
                 bookMark.innerHTML =  markSession;
+                
+                pochListDiv.className = "pochList"; 
+                
                 bookMark.id = "bookMarked";
-                pochListDiv.id = "pochList";
+                
+    
                 pochDiv.append(pochListDiv);
-                pochListDiv.append(bookMark);  
-                    
+                pochListDiv.append(trash);
+                pochListDiv.append(bookMark); 
+                
+               // trash.style.display = "none";
+               // trash.classList.remove("fa-regular", "fa-bookmark");
+               // trash.classList.add("fa-regular", "fa-trash");
                 //auto save in refresh                   
                 let field = document.getElementById("bookMarked");
+    console.log(field);
 
                 // See if we have an autosave value
                 // (this will only happen if the page is accidentally refreshed)
                 for (let i=0; i < sessionStorage.length; i++) {
                     let cle = sessionStorage.key(i);
-                    console.log(cle);
+                    
                   // Restore the contents of the text field
-                  bookMark.textContent = sessionStorage.getItem("elementMarked");
+                  bookMark.innerHTML = sessionStorage.getItem("elementMarked");
                     
                 }
-                
                 // Listen for changes in the text field
-               field.addEventListener("change", () => {
+              /* field.addEventListener("change", () => {
                   // And save the results into the session storage object
-                  sessionStorage.setItem("elementMarked", bookMark.textContent);
-                });
+                  sessionStorage.setItem("elementMarked", bookMark.innerHTML);
+                });*/
                 
-                 console.log(bookMark.textContent); 
-                  
+                let iconbook = pochListDiv.querySelector(".fa-bookmark");
+                iconbook.className ="fa-regular fa-trash";
+                
+                for(let j=0; j<pochListDiv.length; j++){
+                                    
+                }  
+                let k = 0;
+     
+    console.log(sessionStorage.length);
+                while(k<sessionStorage.length){
+               
+                  iconbook.id = "icon"+k;
+
+                  document.getElementById("icon"+k).addEventListener('click',function(event){
+                event.preventDefault()
+                    removePochlist(div);}, false);
+                    
+                    k++;
+                }
+                
+                
              
 }
+ function removePochlist(div){
+     console.log("remvoe");
+
+    sessionStorage.removeItem("elementMarked");
+    let pochList = document.getElementsByClassName("pochList");
+    pochList.textContent = "";
+   // pochList.style.border = "none";
+    
+ }
