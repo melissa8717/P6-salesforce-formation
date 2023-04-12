@@ -1,49 +1,103 @@
-async function API(){
+window.addEventListener('load', (event) => {
+  formSearchBook();
+  //getSessionStorage();
+});
+
+function formSearchBook(){
+    let divBook = document.getElementById("myBooks");
+    let form = document.createElement("form");
     
+    let labelAuthor = document.createElement("label");
+    labelAuthor.textContent = "Auteur :";
+    let inputFormAuthor = document.createElement("input");
+    inputFormAuthor.id = "author";
+    inputFormAuthor.type = "text";
+    
+    let labelTitle = document.createElement("label");
+    labelTitle.textContent = "Titre :";
+    let inputFormTitle = document.createElement("input");
+    inputFormTitle.id = "title-book";
+    inputFormTitle.type = "text";
+    
+    let inputButtonSearch = document.createElement("input");
+    inputButtonSearch.type = "button";
+    inputButtonSearch.id = "button-green-search";
+    inputButtonSearch.value = "Rechercher";
+    
+    let buttonCancel = document.createElement("input");
+    buttonCancel.className = "button-red";
+    buttonCancel.type = "button";
+    buttonCancel.value = "Annuler";
+    
+    let divSearch = document.createElement("div");
+    divSearch.id = "search";
+    
+    let divBookSearch = document.createElement("div");
+    divSearch.id = "book";
+    
+    
+   
+    divBook.append(form);
+    form.append(labelAuthor);
+    form.append(inputFormAuthor);
+    form.append(labelTitle);
+    form.append(inputFormTitle);
+    form.append(inputButtonSearch);
+    form.append(buttonCancel);
+    divBook.append(divSearch);
+    divBook.append(divBookSearch);
+    
+   document.getElementById("button-green-search").addEventListener('click',function(event){
+                event.preventDefault()
+                    callingButtonSearch();}, false);
+}
+
+function callingButtonSearch(){
+       document.getElementById("button-green-search").addEventListener('click', API());
+
+}
+async function API(){
+    console.log("API");
     //url + key api : https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=AIzaSyDPkQzkp7tT8hwUHtCOMVg634fYz_qXMl4
-    var inputAuthor = document.getElementById("author").value;
-    var inputTitleBook = document.getElementById("title-book").value;
-    let divSearch = document.getElementById("search");
+    let inputAuthor = document.getElementById("author").value;
+    let inputTitleBook = document.getElementById("title-book").value;
 
     const response =  await fetch("https://www.googleapis.com/books/v1/volumes?q="+inputTitleBook+"+inauthor:"+inputAuthor+"&key=AIzaSyDPkQzkp7tT8hwUHtCOMVg634fYz_qXMl4");
     const books = await response.json();
-    var bookList = [];
+    let bookList = [];
     bookList=books.items;
     const bookTotal = books.totalItems;
     //console.log(books);
-    
-    let bookDiv = document.getElementById("book");
-    let newBookDiv = document.getElementById("new-book");
-    
-    let count = 0;
-    
+   document.getElementById("button-green-search").addEventListener('click', getBook(bookList,bookTotal));
      
-     var authorBookmark = "";
-     var titleBookmark = "";
-     var idBookmark = "";
+}
+ 
+function getBook(bookList,bookTotal){
+    console.log("getbook");
+    let bookDiv = document.getElementById("book");
+    let newBookDiv = document.getElementById("myBooks");
 
      if(bookTotal == 0){
-        //console.log("if");
-
-        var p = document.createElement("p");
+         
+        let p = document.createElement("p");
         p.innerHTML = "Aucun livre n’a été trouvé";
         bookDiv.append(p);
 
-        }
+         }
      else{
          
          let textSearch = document.createElement("h3");
-         divSearch.append(textSearch);
-     let  i = 0;
+         bookDiv.append(textSearch);
+         let  i = 0;
      
-        while(i<bookList.length){
+         while(i<bookList.length){
                 //console.log("else");
                 let div = document.createElement("div");
-                var author = document.createElement("h4");
-                var title = document.createElement("h4");
-                var ID= document.createElement("h4");
-                var text = document.createElement("h4");
-                var imgage = document.createElement("img");
+                let author = document.createElement("h4");
+                let title = document.createElement("h4");
+                let ID= document.createElement("h4");
+                let text = document.createElement("h4");
+                let imgage = document.createElement("img");
                 let para = document.createElement("p");
                 let bookmarks = document.createElement("i");
                 bookmarks.classList.add("fa-regular", "fa-bookmark");
@@ -91,49 +145,36 @@ async function API(){
                 div.append(author);
                 div.append(text);
                 div.append(imgage);
-                
+                console.log(document.getElementById("bookmark"+i));
                 //bookmark
                 document.getElementById("bookmark"+i).addEventListener('click',function(event){
                 event.preventDefault()
                     addPochlist(div);}, false);
-            
+
         i++;    
-      }
-           count ++;
-     if(count =>1){
-        document.getElementById("author").value = "";
-        document.getElementById("title-book").value = "";
-       
-    
-        }
-    if(count > 1){
-         document.getElementById("element").textContent = "";
-
-         }
-         
-     }
-    
-  
+      }   
+    } 
 }
-
 
 function addPochlist(div) {
     //authorBookmark = author;
-    
+    console.log("add");
                 let poch = document.getElementById("poch");
+    console.log(poch);
                 let divBookMark = div.innerHTML;
-                let divRemove = document.createElement("h4");
-                divRemove.innerHTML = divBookMark;
-                divRemove.className = "elementMarked";
+                let divPoch = document.createElement("h4");
+                divPoch.innerHTML = divBookMark;
+                divPoch.className = "elementMarked";
 
-                poch.appendChild(divRemove);
-                sessionStorage.setItem("elementMarked", divRemove.innerHTML);  
+                poch.appendChild(divPoch);
+                sessionStorage.setItem("session", divPoch.innerHTML);  
                     
-                let markSession = sessionStorage.getItem("elementMarked");
+               // let markSession = sessionStorage.getItem("session");
                 let pochDiv = document.getElementById("poch");
                 let pochListDiv = document.createElement("div");
                 let bookMark = document.createElement("h4");
-                      
+                let markSession = sessionStorage.getItem("elementMarked");
+
                 bookMark.innerHTML =  markSession;
                 pochListDiv.className = "pochList"; 
     
@@ -149,22 +190,32 @@ function addPochlist(div) {
 
                 // See if we have an autosave value
                 // (this will only happen if the page is accidentally refreshed)
+                /*let field = document.getElementById("content");
                 for (let i=0; i < sessionStorage.length; i++) {
                     let cle = sessionStorage.key(i);
                     
                   // Restore the contents of the text field
-                  divRemove.innerHTML = sessionStorage.getItem("elementMarked");
+                  field.innerHTML = sessionStorage.getItem("session");
                     
-                }
-                // Listen for changes in the text field
-              /* field.addEventListener("change", () => {
-                  // And save the results into the session storage object
-                  sessionStorage.setItem("elementMarked", bookMark.innerHTML);
-                });*/
+                }*/
                 
+
+                // See if we have an autosave value
+                // (this will only happen if the page is accidentally refreshed)
+               /* if (sessionStorage.getItem("autosave")) {
+                  // Restore the contents of the text field
+                  field.value = sessionStorage.getItem("autosave");
+                }
+
+                // Listen for changes in the text field
+                field.addEventListener("change", () => {
+                  // And save the results into the session storage object
+                  sessionStorage.setItem("autosave", field.value);
+                });*/
                 let iconbook = poch.querySelector(".fa-bookmark");
                 iconbook.className ="fa-regular fa-trash";
-                 
+                                 console.log(iconbook);
+
                 let k = 0;
                 
                 while(k<document.querySelectorAll(".pochList").length){
@@ -174,7 +225,7 @@ function addPochlist(div) {
 
                   document.getElementById("icon"+k).addEventListener('click',function(event){
                 event.preventDefault()
-                    removePochlist(divRemove);}, false);
+                    removePochlist(divPoch);}, false);
                     
                     k++;
                 }    
@@ -182,14 +233,24 @@ function addPochlist(div) {
              
 }
 
-function removePochlist(divRemove){
+function getSessionStorage(){
+
+    if(sessionStorage.length =! 0){
+    
+        for (let i=0; i < sessionStorage.length; i++) {
+             let session = sessionStorage.getItem(sessionStorage.key(i));
+              document.getElementById("poch").innerHTML= session;
+
+         }
+    }
+
+}
+
+function removePochlist(divPoch){
      console.log("remove");
     let poch = document.getElementById("poch");
     console.log(divRemove.parentNode);
     poch.removeChild(divRemove);
-   sessionStorage.removeItem("elementMarked");
-    
-   
-    
+    sessionStorage.removeItem("elementMarked");  
         
  }
