@@ -1,9 +1,31 @@
 window.addEventListener('load', (event) => {
-  formSearchBook();
+  callingForm();
   getSessionStorage();
 });
 
-function formSearchBook(){
+function callingForm(){
+    let content = document.getElementById("content");
+    let divPoch = document.createElement("div");
+    let divBook = document.getElementById("myBooks");
+    let newBook = divBook.querySelector(".h2");
+    let buttonAdd = document.createElement("input");
+    
+    buttonAdd.id = "add-book";
+    buttonAdd.value = "Ajouter un livre";
+    buttonAdd.type = "button";
+    
+    divPoch.id = "poch";
+    newBook.id = "new-book";
+   //// newBook.id = "new-book";
+    
+    divBook.append(buttonAdd);
+    divBook.append(divPoch);
+    
+    document.getElementById("add-book").addEventListener('click',function(event){
+                event.preventDefault()
+                    initPage();}, false);
+}
+function initPage(){
     let divBook = document.getElementById("myBooks");
     let form = document.createElement("form");
     
@@ -32,10 +54,16 @@ function formSearchBook(){
     let divSearch = document.createElement("div");
     divSearch.id = "search";
     
+    let divPoch = document.createElement("div");
+    divPoch.id = "poch";
+    
     let divBookSearch = document.createElement("div");
-    divSearch.id = "book";
+    divBookSearch.id = "book";
     
+    let content = document.getElementById("content");
     
+    let titlePochDiv = document.createElement("h2");
+    titlePochDiv.innerHTML = "<hr>"+"Ma poch'liste";
    
     divBook.append(form);
     form.append(labelAuthor);
@@ -46,14 +74,49 @@ function formSearchBook(){
     form.append(buttonCancel);
     divBook.append(divSearch);
     divBook.append(divBookSearch);
+    divBook.append(divPoch);
+    divPoch.append(titlePochDiv);
     
    document.getElementById("button-green-search").addEventListener('click',function(event){
                 event.preventDefault()
                     callingButtonSearch();}, false);
+    
+    buttonCancel.onclick = function(){
+    location.reload();
+    let tagForm = document.getElementsByTagName("form");
+    tagForm.innerHTML = "";
+     callingForm();
+    
+    };
+}
+function fieldRequired(){
+    let inputAuthor = document.getElementById("author").value;
+    let inputTitleBook = document.getElementById("title-book").value;
+    
+    if(inputAuthor == ""){
+        alert("Le champ Auteur ne doit pas être vide");
+        return false;
+    }
+    if(inputTitleBook  == ""){
+        alert("Le champ Titre ne doit pas être vide");
+        return false;
+    }
+    
+   if(inputTitleBook  == "" && inputAuthor == ""){
+        alert("Tous les champs ne doivent pas être vide");
+        return false;
+    }
+    return true;   
+
 }
 
 function callingButtonSearch(){
+        if(fieldRequired() == true){
        document.getElementById("button-green-search").addEventListener('click', API());
+        }
+        else{
+            fieldRequired()
+        }
 
 }
 async function API(){
@@ -71,11 +134,32 @@ async function API(){
    document.getElementById("button-green-search").addEventListener('click', getBook(bookList,bookTotal));
      
 }
- 
+
+function lookPochList(){
+       let i = 0;
+               
+       while(i<document.querySelectorAll(".elementMarked").length){
+             let divPoch = document.getElementsByClassName("elementMarked");
+                    console.log(divPoch[i].textContent);
+              let result = divPoch[i].textContent.indexOf('Auteur');
+                    console.log(result);
+              let idSub = divPoch[i].textContent.substring(result,-12);
+              let idPoch = idSub.substring(divPoch[i].textContent.indexOf('Identifiant : ') );
+              let idPochSub = idPoch.substring(14)
+                    console.log(idPochSub); 
+                    
+              i++;
+              return idPochSub;
+        }
+    
+}
+
+
+
 function getBook(bookList,bookTotal){
-    console.log("getbook");
     let bookDiv = document.getElementById("book");
     let newBookDiv = document.getElementById("myBooks");
+    
 
      if(bookTotal == 0){
          
@@ -88,6 +172,7 @@ function getBook(bookList,bookTotal){
          
          let textSearch = document.createElement("h3");
          bookDiv.append(textSearch);
+       
          let  i = 0;
      
          while(i<bookList.length){
@@ -128,7 +213,7 @@ function getBook(bookList,bookTotal){
                  //console.log(bookList[i].volumeInfo);
                 textSearch.innerHTML = "Résultat de la recherche :";
                 title.innerHTML = "Titre : " +bookList[i].volumeInfo.title;
-                ID.innerHTML = "<br /> Identifiant : " + bookList[i].id;
+                ID.innerHTML = "Identifiant : " + bookList[i].id;
                 
                 if(bookList[i].volumeInfo.description ==  null){
                     text.innerHTML = "Description : Information manquante";
@@ -145,48 +230,48 @@ function getBook(bookList,bookTotal){
                 div.append(author);
                 div.append(text);
                 div.append(imgage);
-                console.log(document.getElementById("bookmark"+i));
-                //bookmark
+                
+               //let idBook = ID.substring(14);
                 document.getElementById("bookmark"+i).addEventListener('click',function(event){
-                event.preventDefault()
-                    addPochlist(div);}, false);
+                    event.preventDefault()
+                        if(lookPochList() ==  bookList[i].id){
+                        alert("Livre déjà présent dans la Poch'list !");
+                        }
+                        else{
+                             addPochlist(div);
+
+                             }
+
+                     }, false);
+                                                                           
 
         i++;    
       }   
     } 
 }
 
+
 function addPochlist(div) {
     //authorBookmark = author;
     console.log("add");
+                //let idBook = ID.substring(14);
+               
                 let poch = document.getElementById("poch");
-    console.log(poch);
                 let divBookMark = div.innerHTML;
                 let divPoch = document.createElement("h4");
                 divPoch.innerHTML = divBookMark;
                 divPoch.className = "elementMarked";
 
                 poch.appendChild(divPoch);
-                sessionStorage.setItem("session", divPoch.innerHTML);  
+                sessionStorage.setItem("session", divPoch.innerHTML); 
                     
                 let markSession = sessionStorage.getItem("session");
                 let pochDiv = document.getElementById("poch");
                 let pochListDiv = document.createElement("div");
-                let bookMark = document.createElement("h4");
 
-                //bookMark.innerHTML =  markSession;
                 pochListDiv.className = "pochList"; 
     
                 pochDiv.appendChild(pochListDiv);
-               // pochListDiv.appendChild(divRemove); 
-                
-                //auto save in refresh  
-                let idBookmark = "";
-                for(j=0;j<pochListDiv.length;j++){
-                   bookMark.id = "bookMarked"+j;
-                   idBookmark = document.getElementById("bookMarked"+j);
-                }
-
                 
                 let iconbook = poch.querySelector(".fa-bookmark");
                 iconbook.className ="fa-regular fa-trash";
@@ -194,6 +279,7 @@ function addPochlist(div) {
                 let k = 0;
                 
                 while(k<document.querySelectorAll(".pochList").length){
+                   
                     if(sessionStorage.length =! 0){
                         let iconWithSession = k+1;
                         iconbook.id = "icon"+iconWithSession;
@@ -218,40 +304,35 @@ function addPochlist(div) {
 function getSessionStorage(){
      
     let poch = document.getElementById("poch");
-    let divPoch = document.createElement("h4");
-    divPoch.className = "elementMarked";
+    let divSession = document.createElement("h4");
+    divSession.className = "elementMarked";
 
-    poch.appendChild(divPoch);
+    poch.appendChild(divSession);
 
     if(sessionStorage.length =! 0){
     
         for (let i=0; i < sessionStorage.length; i++) {
              let session = sessionStorage.getItem(sessionStorage.key(i));
-             console.log(session);
+             divSession.innerHTML= session;
 
-             divPoch.innerHTML= session;
-        
-
-               let iconbook = poch.querySelector(".fa-bookmark");
+             let iconbook = poch.querySelector(".fa-bookmark");
              iconbook.className ="fa-regular fa-trash";
-                    
-            console.log(iconbook);
-                    iconbook.id = "icon"+i;
+             iconbook.id = "icon"+i;
 
- document.getElementById("icon"+i).addEventListener('click',function(event){
+             document.getElementById("icon"+i).addEventListener('click',function(event){
                 event.preventDefault()
-                    removePochlist(divPoch);}, false);
-               }
+                    removePochlist(divSession);}, false);
+         }
         
     }
 
 }
 
-function removePochlist(divPoch){
+function removePochlist(divSession){
      console.log("remove");
     let poch = document.getElementById("poch");
-    console.log(divPoch.parentNode);
-    poch.removeChild(divPoch);
+    console.log(divSession.parentNode);
+    poch.removeChild(divSession);
     sessionStorage.removeItem("elementMarked");  
         
  }
