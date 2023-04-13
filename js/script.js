@@ -1,6 +1,6 @@
 window.addEventListener('load', (event) => {
   formSearchBook();
-  //getSessionStorage();
+  getSessionStorage();
 });
 
 function formSearchBook(){
@@ -169,13 +169,12 @@ function addPochlist(div) {
                 poch.appendChild(divPoch);
                 sessionStorage.setItem("session", divPoch.innerHTML);  
                     
-               // let markSession = sessionStorage.getItem("session");
+                let markSession = sessionStorage.getItem("session");
                 let pochDiv = document.getElementById("poch");
                 let pochListDiv = document.createElement("div");
                 let bookMark = document.createElement("h4");
-                let markSession = sessionStorage.getItem("elementMarked");
 
-                bookMark.innerHTML =  markSession;
+                //bookMark.innerHTML =  markSession;
                 pochListDiv.className = "pochList"; 
     
                 pochDiv.appendChild(pochListDiv);
@@ -188,60 +187,62 @@ function addPochlist(div) {
                    idBookmark = document.getElementById("bookMarked"+j);
                 }
 
-                // See if we have an autosave value
-                // (this will only happen if the page is accidentally refreshed)
-                /*let field = document.getElementById("content");
-                for (let i=0; i < sessionStorage.length; i++) {
-                    let cle = sessionStorage.key(i);
-                    
-                  // Restore the contents of the text field
-                  field.innerHTML = sessionStorage.getItem("session");
-                    
-                }*/
                 
-
-                // See if we have an autosave value
-                // (this will only happen if the page is accidentally refreshed)
-               /* if (sessionStorage.getItem("autosave")) {
-                  // Restore the contents of the text field
-                  field.value = sessionStorage.getItem("autosave");
-                }
-
-                // Listen for changes in the text field
-                field.addEventListener("change", () => {
-                  // And save the results into the session storage object
-                  sessionStorage.setItem("autosave", field.value);
-                });*/
                 let iconbook = poch.querySelector(".fa-bookmark");
                 iconbook.className ="fa-regular fa-trash";
-                                 console.log(iconbook);
 
                 let k = 0;
                 
                 while(k<document.querySelectorAll(".pochList").length){
-               
+                    if(sessionStorage.length =! 0){
+                        let iconWithSession = k+1;
+                        iconbook.id = "icon"+iconWithSession;
+
+                    }
+                    else{
                     iconbook.id = "icon"+k;
                    
 
                   document.getElementById("icon"+k).addEventListener('click',function(event){
                 event.preventDefault()
                     removePochlist(divPoch);}, false);
+                    }
                     
                     k++;
+                    
                 }    
 
              
 }
 
 function getSessionStorage(){
+     
+    let poch = document.getElementById("poch");
+    let divPoch = document.createElement("h4");
+    divPoch.className = "elementMarked";
+
+    poch.appendChild(divPoch);
 
     if(sessionStorage.length =! 0){
     
         for (let i=0; i < sessionStorage.length; i++) {
              let session = sessionStorage.getItem(sessionStorage.key(i));
-              document.getElementById("poch").innerHTML= session;
+             console.log(session);
 
-         }
+             divPoch.innerHTML= session;
+        
+
+               let iconbook = poch.querySelector(".fa-bookmark");
+             iconbook.className ="fa-regular fa-trash";
+                    
+            console.log(iconbook);
+                    iconbook.id = "icon"+i;
+
+ document.getElementById("icon"+i).addEventListener('click',function(event){
+                event.preventDefault()
+                    removePochlist(divPoch);}, false);
+               }
+        
     }
 
 }
@@ -249,8 +250,8 @@ function getSessionStorage(){
 function removePochlist(divPoch){
      console.log("remove");
     let poch = document.getElementById("poch");
-    console.log(divRemove.parentNode);
-    poch.removeChild(divRemove);
+    console.log(divPoch.parentNode);
+    poch.removeChild(divPoch);
     sessionStorage.removeItem("elementMarked");  
         
  }
