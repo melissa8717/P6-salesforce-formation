@@ -1,18 +1,35 @@
 $green:#117A54;
 $red:#F31308;
 
+body{
+    font-family: "Source sans pro", Verdana, Sans-serif;
+}
+
 h1 {
   color: grey;
   padding-top: 20px;
   padding-bottom: 17px;
-  margin-left: 45%; }
-
-h2 {
   margin-left: 45%; 
 }
 
+ h2 {
+  margin-left: 45%; 
+}
+
+
 h3{
   width: 100%;
+}
+
+#form-search, #book{
+    position: relative;
+    left: -80%;
+    width: 190%;
+    font-size: 15px;
+}
+
+#book{
+width: 180%;
 }
 
 input[type=button],input[type=submit] {
@@ -22,14 +39,18 @@ input[type=button],input[type=submit] {
   padding-left: 10px;
   padding-right: 10px;
   font-size: 20px;
-  color: white; }
+  color: white; 
+  margin-bottom: 5px;
+}
 
 #button-green-search {
   background-color: #117A54;
-  margin-left: 44.4%; }
+  margin-left: 0%; }
 
 .logo {
-  margin-left: 45%; }
+  margin-left: 45%; 
+
+}
 
 label{
     display: block;
@@ -45,7 +66,7 @@ a {
   text-decoration: none;
   color: white; }
 
-.button-green-search {
+#button-green-search, #add-book {
   background-color: #117A54;
   border-radius: 5px;
   padding-top: 10px;
@@ -53,15 +74,24 @@ a {
   padding-left: 10px;
   padding-right: 10px;
   font-size: 20px;
-  color: white; }
+  color: white; 
+}
+
 
 .button-red {
-  background-color: #F31308; }
+  background-color: $red;
+  margin-left: 0%;
+  margin-top: 1%;
+  text-align: center;
+  width: 128px;
+}
 
 p {
   margin-left: 45%;
   font-size: 30px;
-  font-weight: bold; }
+  font-weight: bold; 
+}
+
 
 .element,.elementMarked{
   border: 5px solid #117A54;
@@ -72,7 +102,7 @@ p {
   padding-left: 10px;
 }
 
-#book, #poch{
+#book, #poch, #session{
     display: flex;
     flex-wrap: wrap;
 }
@@ -97,5 +127,6 @@ p {
     color:red;
     margin-left: 90%;
 }
+
 
 
