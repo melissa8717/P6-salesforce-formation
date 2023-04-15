@@ -9,6 +9,14 @@ function callingForm(){
     let divBook = document.getElementById("myBooks");
     let newBook = divBook.querySelector(".h2");
     let buttonAdd = document.createElement("input");
+    let pochTitle = content.querySelectorAll(".h2");
+    let divFirst = document.createElement("div");
+    
+    divFirst.id = "first";
+    
+    pochTitle.id = "pochTitle";
+    
+    console.log(pochTitle.innerHTML);
     
     buttonAdd.id = "add-book";
     buttonAdd.value = "Ajouter un livre";
@@ -16,18 +24,33 @@ function callingForm(){
     
     divPoch.id = "poch";
     newBook.id = "new-book";
-   //// newBook.id = "new-book";
-    
-    divBook.append(buttonAdd);
+    newBook.innerHTML = "Nouveau livre"+"<br />"+"<br />";
+
+    newBook.append(buttonAdd);
+    newBook.append(divFirst);
     divBook.append(divPoch);
+    
+    
     
     document.getElementById("add-book").addEventListener('click',function(event){
                 event.preventDefault()
-                    initPage();}, false);
+                    initPage(),deleteButtonBook();}, false);
+}
+
+function deleteButtonBook(){
+    let divNewBook  = document.getElementById("new-book");
+    let buttonAdd = document.getElementById("add-book");
+    divNewBook.removeChild(buttonAdd);
+    
 }
 function initPage(){
+    let content = document.getElementById("content");
     let divBook = document.getElementById("myBooks");
+    let divFirst = document.getElementById("first");
     let form = document.createElement("form");
+    
+    form.id = "form-search";
+   
     
     let labelAuthor = document.createElement("label");
     labelAuthor.textContent = "Auteur :";
@@ -36,7 +59,7 @@ function initPage(){
     inputFormAuthor.type = "text";
     
     let labelTitle = document.createElement("label");
-    labelTitle.textContent = "Titre :";
+    labelTitle.textContent = "Titre du livre:";
     let inputFormTitle = document.createElement("input");
     inputFormTitle.id = "title-book";
     inputFormTitle.type = "text";
@@ -59,27 +82,28 @@ function initPage(){
     
     let divBookSearch = document.createElement("div");
     divBookSearch.id = "book";
-    
-    let content = document.getElementById("content");
-    
-    let titlePochDiv = document.createElement("h2");
-    titlePochDiv.innerHTML = "<hr>"+"Ma poch'liste";
+ 
    
-    divBook.append(form);
-    form.append(labelAuthor);
-    form.append(inputFormAuthor);
+    let newBook = divBook.querySelector(".h2");
+    let br = document.createElement("BR");
+
+
+   
+    divFirst.append(form);
     form.append(labelTitle);
     form.append(inputFormTitle);
+    form.append(labelAuthor);
+    form.append(inputFormAuthor);
     form.append(inputButtonSearch);
+    form.append(br);
     form.append(buttonCancel);
-    divBook.append(divSearch);
-    divBook.append(divBookSearch);
-    divBook.append(divPoch);
-    divPoch.append(titlePochDiv);
+    divFirst.append(divSearch);
+    divFirst.append(divBookSearch);
+    divFirst.append(divPoch);
     
    document.getElementById("button-green-search").addEventListener('click',function(event){
                 event.preventDefault()
-                    callingButtonSearch();}, false);
+                    callingButtonSearch(),cleanFieldSearch();}, false);
     
     buttonCancel.onclick = function(){
     location.reload();
@@ -119,6 +143,15 @@ function callingButtonSearch(){
         }
 
 }
+
+function cleanFieldSearch(){
+    if(document.getElementById("author").value && document.getElementById("title-book").value != ""){
+        document.getElementById("author").value = "";
+        document.getElementById("title-book").value = "";
+        
+        }
+}
+
 async function API(){
     console.log("API");
     //url + key api : https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=AIzaSyDPkQzkp7tT8hwUHtCOMVg634fYz_qXMl4
@@ -131,7 +164,7 @@ async function API(){
     bookList=books.items;
     const bookTotal = books.totalItems;
     //console.log(books);
-   document.getElementById("button-green-search").addEventListener('click', getBook(bookList,bookTotal));
+   document.getElementById("button-green-search").addEventListener('click', getBook(bookList,bookTotal),cleanFieldSearch());
      
 }
 
@@ -159,6 +192,8 @@ function lookPochList(){
 function getBook(bookList,bookTotal){
     let bookDiv = document.getElementById("book");
     let newBookDiv = document.getElementById("myBooks");
+    let divFirst = document.getElementById("first");
+
     
 
      if(bookTotal == 0){
@@ -303,13 +338,14 @@ function addPochlist(div) {
 
 function getSessionStorage(){
      
-    let poch = document.getElementById("poch");
-    let divSession = document.createElement("h4");
-    divSession.className = "elementMarked";
-
-    poch.appendChild(divSession);
+  console.log(sessionStorage.length);
 
     if(sessionStorage.length =! 0){
+       let poch = document.getElementById("poch");
+       let divSession = document.createElement("h4");
+       divSession.className = "elementMarked";
+
+    poch.appendChild(divSession);
     
         for (let i=0; i < sessionStorage.length; i++) {
              let session = sessionStorage.getItem(sessionStorage.key(i));
