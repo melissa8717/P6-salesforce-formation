@@ -93,16 +93,24 @@ p {
 }
 
 
-.element,.elementMarked{
-  border: 5px solid #117A54;
-  padding-bottom: 10px;
-  margin-top: 10px; 
-  width: 46%;
-  margin-right: 10px;
-  padding-left: 10px;
+    .element{
+      border: 5px solid $green;
+
+    }
+    .element, .elementMarked {
+      padding-bottom: 10px;
+      margin-top: 10px;
+      width: 46%;
+      margin-right: 10px;
+      padding-left: 10px; }
+
+.elementMarked{
+          border-width: 5px;
+          border-style: solid;
+
 }
 
-#book, #poch, #session{
+#book, #poch, #session, #content{
     display: flex;
     flex-wrap: wrap;
 }
