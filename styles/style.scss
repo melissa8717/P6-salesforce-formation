@@ -128,5 +128,26 @@ p {
     margin-left: 90%;
 }
 
+@media (max-width: 890px) { 
+
+    h1, h2 {
+        margin-left: 32%;
+    }
+    .logo{
+        margin-left: 37%;
+    }
+    
+    #form-search, #book {
+    position: relative;
+    left: -40%;
+    width: 140%;
+    font-size: 15px;
+    }
+    
+    .element, .elementMarked{
+        width: 90%;
+
+    }
+}
 
 
