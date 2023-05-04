@@ -7,22 +7,20 @@
       color: grey;
       padding-top: 20px;
       padding-bottom: 17px;
-      margin-left: 45%; }
+      margin-left: 41%; }
 
     h2 {
-      margin-left: 45%; }
+      margin-left: 39%; }
 
     h3 {
       width: 100%; }
 
     #form-search, #book {
       position: relative;
-      left: -80%;
-      width: 190%;
+      left: -60%;
+      width: 150%;
       font-size: 15px; }
 
-    #book {
-      width: 180%; }
 
     input[type=button], input[type=submit] {
       border-radius: 5px;
@@ -39,7 +37,7 @@
       margin-left: 0%; }
 
     .logo {
-      margin-left: 45%; }
+      margin-left: 43%; }
 
     label {
       display: block;
@@ -111,8 +109,20 @@
 
     .fa-trash {
       color: #F31308;
-      margin-left: 90%; }
-    
+      margin-left: 90%; 
+}
+
+#myBooks hr{
+    margin-top: 100px;
+}
+
+#add-book{
+    margin-bottom: 100px;
+    margin-left: 2.5%;
+}
+
+
+.button-green{visibility:hidden;}  
 
 
 @media (max-width: 890px) { 
