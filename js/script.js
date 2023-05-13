@@ -10,6 +10,7 @@ function callingForm() {
     let buttonAdd = document.createElement("input");
     let pochTitle = content.querySelectorAll(".h2");
     let divFirst = document.createElement("div");
+    
 
     divFirst.id = "first";
 
@@ -22,8 +23,9 @@ function callingForm() {
     newBook.id = "new-book";
     newBook.innerHTML = "Nouveau livre" + "<br />" + "<br />";
 
-    newBook.append(buttonAdd);
     newBook.append(divFirst);
+    newBook.append(buttonAdd);
+
 
 
 
@@ -44,6 +46,7 @@ function initPage() {
     let divBook = document.getElementById("myBooks");
     let divFirst = document.getElementById("first");
     let form = document.createElement("form");
+    let books = document.getElementById("book");
 
     form.id = "form-search";
 
@@ -78,9 +81,8 @@ function initPage() {
 
 
     let newBook = divBook.querySelector(".h2");
-    let br = document.createElement("BR");
-
-    let divPoch = document.getElementById("poch");
+    let br = document.createElement("BR");    
+    
 
     divFirst.append(form);
     form.append(labelTitle);
@@ -92,10 +94,14 @@ function initPage() {
     form.append(buttonCancel);
     divFirst.append(divSearch);
     divFirst.append(divBookSearch);
-    divFirst.append(divPoch);
 
     document.getElementById("button-green-search").addEventListener('click', function (event) {
         event.preventDefault()
+
+    
+    /*if(books.innerHTML != ""){
+       books.innerHTML == "";
+       }*/
         callingButtonSearch(), cleanFieldSearch();
     }, false);
 
@@ -129,6 +135,9 @@ function fieldRequired() {
 }
 
 function callingButtonSearch() {
+   
+    
+    
     if (fieldRequired() == true) {
         document.getElementById("button-green-search").addEventListener('click', API());
     } else {
@@ -171,7 +180,6 @@ function getBook(bookList, bookTotal) {
     let divFirst = document.getElementById("first");
 
 
-
     if (bookTotal == 0) {
 
         let p = document.createElement("p");
@@ -195,7 +203,7 @@ function getBook(bookList, bookTotal) {
             let imgage = document.createElement("img");
             let para = document.createElement("p");
             let bookmarks = document.createElement("i");
-            bookmarks.classList.add("fa-regular", "fa-bookmark");
+            bookmarks.classList.add("fa-solid", "fa-bookmark");
             // console.log(bookList[i].volumeInfo.imageLinks.thumbnail);
 
             if (bookList[i].volumeInfo.imageLinks.thumbnail == null) {
@@ -208,6 +216,7 @@ function getBook(bookList, bookTotal) {
 
             div.className = "element";
             bookmarks.id = "bookmark" + i;
+            console.log(bookmarks);
 
             //if more than one author
             for (let j = 0; j < bookList[i].volumeInfo.authors.length; j++) {
@@ -339,14 +348,14 @@ function addPochlist(div) {
 
 function getSessionStorage() {
   let content = document.getElementById("content");
-  content.innerHTML = "";
+  //content.innerHTML = "";
   for(let i =0; i<sessionStorage.length; i++){
         let session = sessionStorage.getItem(sessionStorage.key(i));
-        let divSession = document.createElement("div");
-        divSession.className = "elementMarked";
-        divSession.style.borderColor = "#117A54";
-        divSession.innerHTML = session;
-        content.appendChild(divSession);
+        let divPoch = document.createElement("div");
+        divPoch.className = "elementMarked";
+        divPoch.style.borderColor = "#117A54";
+        divPoch.innerHTML = session;
+        content.appendChild(divPoch);
   
         console.log(session);
 
@@ -357,16 +366,17 @@ function getSessionStorage() {
 
         document.getElementById("icon" + i).addEventListener('click', function (event) {
             event.preventDefault()
-            removePochlist(divSession);
+            removePochlist(divPoch);
         }, false);
     }
 
 
 }
 
-function removePochlist(divSession) {
+function removePochlist(divPoch) {
+    console.log("remove");
     let poch = document.getElementById("content");
-    poch.removeChild(divSession);
+    poch.removeChild(divPoch);
     sessionStorage.removeItem("elementMarked");
 
 }
